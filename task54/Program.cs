@@ -10,14 +10,14 @@
 // 9 5 3 2
 // 8 4 4 2
 
-int[,] GetArray(int m, int n, int minValue, int maxValue)
+int[,] GetArray(int m, int n)
 {
     int[,] array = new int[m, n];
-    for (int i = 0; i < m; i++)
+    for (int i = 0; i < array.GetLength(0); i++)
     {
-        for (int j = 0; j < n; j++)
+        for (int j = 0; j < array.GetLength(1); j++)
         {
-            array[i, j] = new Random().Next(minValue, maxValue);
+            array[i, j] = new Random().Next(-5, 6);
         }
     }
     return array;
@@ -44,23 +44,26 @@ int[,] GetSortedArray(int[,] array3)
 
         for (int j = 0; j < array3.GetLength(1); j++)
         {
-            int element;
-            int flag = 0; // флаг для расчета количества изменений. Если изменений не было, то сортировка закончена
-
-            if (flag != 0)
+            for (int k = 0; k < array3.GetLength(1); k++)
             {
-                if (array3[i, j] < array3[i, j + 1])
+                if (array3[i, j] <= array3[i, k])
                 {
-                    // element = array3[i, j];
-                    // array3[i, j] = array3[i, j + 1];
-                    // array3[i, j + 1] = element;
-                    // flag++;
+                    int temp = array3[i, j];
+                    array3[i, j] = array3[i, k];
+                    array3[i, k] = temp;
                 }
-            }
-            else
-            {
-                // значит, пора переходить к новой строке
             }
         }
     }
+    return array3;
 }
+
+Console.Write("Введите количество строк массива m = ");
+int m = int.Parse(Console.ReadLine());
+Console.Write("Введите количество столбцов массива n = ");
+int n = int.Parse(Console.ReadLine());
+
+int[,] arr = GetArray(m, n);
+PrintArray(arr);
+Console.WriteLine();
+PrintArray(GetSortedArray(arr));
